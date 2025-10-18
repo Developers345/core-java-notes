@@ -260,5 +260,3 @@ interface Square {
    Square square = (length, width) -> length * width;
    ```
 
-```
-
