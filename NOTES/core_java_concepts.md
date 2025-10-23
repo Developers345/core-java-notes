@@ -293,3 +293,91 @@ public class WrapperClassTest {
     }
 }
 ````
+
+# Ternary Operator in Java
+
+## What is a Ternary Operator? Why Do We Need It?
+
+- The **Ternary Operator** is a **conditional operator** used to **shorten simple `if-else` statements** in Java.  
+- It helps make the code **more compact and readable**.  
+- The **Ternary Operator** was introduced in **Java 1.0**.
+
+---
+
+## Syntax of the Ternary Operator
+
+```java
+condition ? expression1 : expression2
+````
+
+* The term **"ternary"** means it is composed of **three parts**:
+
+  1. **Condition** → a boolean expression that evaluates to `true` or `false`.
+  2. **Expression1** → executed if the condition is `true`.
+  3. **Expression2** → executed if the condition is `false`.
+
+---
+
+# How to Use the Ternary Operator in Java
+
+## Example Program
+
+```java
+public class TernaryOperatorTest {
+    public static void main(String[] args) {
+
+        int i = 100;
+        int j = 70;
+        int max;
+
+        // Old style using if-else
+        if (i > j)
+            max = i;
+        else
+            max = j;
+
+        System.out.println(max);
+
+        // Using ternary operator
+        System.out.println((i > j) ? i : j);
+
+        // Old way for checking 3 conditions
+        int number = 10;
+        if (number == 0)
+            System.out.println("The number is zero");
+        else if (number > 0)
+            System.out.println("The number is positive");
+        else if (number < 0)
+            System.out.println("The number is Negative");
+
+        // Using ternary operator for checking three conditions
+        System.out.println(
+            (number == 0) ? "Zero" :
+            (number > 0) ? "Positive" : "Negative"
+        );
+    }
+}
+````
+
+---
+
+## Output
+
+```
+100
+100
+The number is positive
+Positive
+```
+
+# Important Points to Remember About Ternary Operator
+
+- Whenever we use the **ternary operator**, it must **always return a value**.  
+  The `void` return type is **not suitable** for ternary operators.
+
+- **Java recommends** using the ternary operator **only for simple `if-else` or two-condition checks**,  
+  because using it for **multiple `if-else` conditions** can reduce **code readability**.
+
+- In **ternary operators**, we **cannot create code blocks** (`{ }`).  
+  Only expressions that return values are allowed.
+```
