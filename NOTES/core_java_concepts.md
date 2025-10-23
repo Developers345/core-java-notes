@@ -156,4 +156,140 @@ public class TypeConversionTest {
 }
 ````
 
+# Wrapper Classes in Java
 
+## What is a Wrapper Class? Why Do We Need It?
+
+- Java supports **primitive data types** such as `int`, `float`, `char`, `boolean`, etc.  
+  Because of this, **Java is not a fully object-oriented programming language**,  
+  since primitives are **not objects**.
+
+- When Java introduced the **Collections Framework**,  
+  it only supported **objects**, not primitive data types.  
+  Therefore, to store primitive values in collections like `ArrayList`, `HashMap`, etc.,  
+  Java introduced **Wrapper Classes** — which convert primitive data types into objects.
+
+
+# How to Use Wrapper Classes in Java
+
+## What is a Wrapper Class?
+
+- A **Wrapper Class** is a class that **wraps a primitive data type** into an **object**.  
+- Each primitive type in Java has a corresponding wrapper class:
+
+| Primitive Type | Wrapper Class |
+|-----------------|----------------|
+| `byte`          | `Byte`         |
+| `short`         | `Short`        |
+| `int`           | `Integer`      |
+| `float`         | `Float`        |
+| `double`        | `Double`       |
+| `char`          | `Character`    |
+| `boolean`       | `Boolean`      |
+
+- All **Wrapper Classes** start with a **capital letter**.
+
+---
+
+### Example:
+```java
+Integer i = new Integer(); // ❌ Compilation error
+````
+
+> Wrapper classes **do not have a default (no-argument) constructor**.
+> Their main purpose is to **wrap primitive data types into objects**.
+
+---
+
+## Boxing
+
+Boxing means **converting a primitive data type into its corresponding wrapper object**.
+
+```java
+int i = 39;
+Integer i2 = new Integer(i);  // Boxing (Deprecated)
+```
+
+* The above statement **wraps the primitive value `i` into an `Integer` object**.
+* However, the `new Integer(i)` constructor is **deprecated**.
+* The recommended way is:
+
+```java
+Integer i2 = Integer.valueOf(i);  // ✅ Preferred method
+```
+
+---
+
+## Auto-Boxing
+
+**Auto-Boxing** is when Java **automatically converts a primitive type into a wrapper object** internally.
+
+```java
+int i = 39;
+Integer i3 = i;  // Auto-Boxing
+```
+
+> Java automatically creates a wrapper object for the primitive value.
+
+---
+
+## Unboxing
+
+**Unboxing** is the reverse process — converting a **wrapper object back into a primitive type**.
+
+```java
+Integer i3 = Integer.valueOf(55);
+int ii = i3.intValue();  // Unboxing
+```
+
+---
+
+## Auto-Unboxing
+
+**Auto-Unboxing** is when Java **automatically converts a wrapper object to its corresponding primitive type**.
+
+```java
+Integer i3 = Integer.valueOf(55);
+int ii = i3;  // Auto-Unboxing
+```
+
+> Java automatically extracts the primitive value from the wrapper object.
+
+
+# Example Program: Wrapper Classes in Java
+
+```java
+import java.util.ArrayList;
+
+public class WrapperClassTest {
+    public static void main(String[] args) {
+
+        int i = 20;
+
+        // Integer(55) is deprecated
+        // Integer ii = new Integer(55);
+        Integer ii = Integer.valueOf(88); // Boxing
+        System.out.println(ii);
+
+        Integer i2 = 89; // Auto-boxing
+        System.out.println(i2);
+
+        int i3 = i2.intValue(); // Unboxing
+        int i4 = i2;            // Auto-unboxing
+
+        System.out.println(i3);
+        System.out.println(i4);
+
+        ArrayList<Integer> al = new ArrayList<Integer>();
+        al.add(34);                  // Auto-boxing
+        al.add(Integer.valueOf(45)); // Boxing
+        int i5 = al.get(0);          // Auto-unboxing
+        System.out.println(i5);
+
+        String s = "14";
+        int i7 = Integer.valueOf(s);   // Returns reference/object type (Integer)
+        int i8 = Integer.parseInt(s);  // Returns primitive data type (int)
+        System.out.println(i7);
+    }
+}
+````
