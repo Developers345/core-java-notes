@@ -1,9 +1,3 @@
-# Inheritance in Java: an in-depth, step-by-step guide
-
-Inheritance is the backbone of code reuse and polymorphism in Java. Done well, it makes your design clearer; done poorly, it tangles your code. Let’s walk it step by step with examples, diagrams-in-words, and practical rules you can lean on.
-
----
-
 ## Core concepts and terminology
 
 - **Superclass:** The parent/base class that provides common state and behavior.
