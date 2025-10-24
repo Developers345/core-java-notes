@@ -380,4 +380,306 @@ Positive
 
 - In **ternary operators**, we **cannot create code blocks** (`{ }`).  
   Only expressions that return values are allowed.
+
+
+# **Switch Statement in Java – In-Depth Explanation**
+
+## **1. Introduction**
+
+The **`switch` statement** in Java is a **multi-branch selection statement** that allows the execution of one block of code among many alternatives, based on the value of an **expression**.  
+It is often used as an alternative to multiple `if-else` statements for better readability and performance.
+
+---
+
+## **2. Syntax of Switch Statement**
+
+```java
+switch (expression) {
+    case value1:
+        // statements
+        break;
+
+    case value2:
+        // statements
+        break;
+
+    ...
+
+    default:
+        // statements
+}
+````
+
+---
+
+## **3. Explanation of Each Part**
+
+| Part           | Description                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **expression** | This is evaluated once. The result is compared with the values of each `case`.                                      |
+| **case value** | Each `case` label represents a possible value of the expression.                                                    |
+| **break**      | It ends the current case and exits the switch block. Without `break`, control will "fall through" to the next case. |
+| **default**    | Optional. Executes when none of the `case` values match the expression.                                             |
+
+---
+
+## **4. Rules for Using Switch Statement**
+
+1. The **expression** must evaluate to:
+
+   * `byte`, `short`, `char`, `int`
+   * `enum` type (Java 5+)
+   * `String` type (Java 7+)
+   * `var` (Java 10+, depending on inferred type)
+
+2. **Duplicate case values are not allowed.**
+
+3. **`break`** is optional — if omitted, execution continues into the next case (known as **fall-through**).
+
+4. **`default`** is optional but recommended.
+
+5. **Expression and case values must be of the same type** (or compatible type).
+
+---
+
+## **5. Flowchart**
+
 ```
+      +-------------------+
+      |   Evaluate expr   |
+      +--------+----------+
+               |
+       +-------v--------+
+       | Compare value1  |
+       +-------+--------+
+               |
+      +--------v---------+
+      | Match? Execute   |
+      |   case block     |
+      +--------+---------+
+               |
+             break?
+             /   \
+          yes     no
+         exit   continue next case
+```
+
+---
+
+## **6. Example 1: Basic Integer Example**
+
+```java
+public class SwitchExample {
+    public static void main(String[] args) {
+        int day = 3;
+
+        switch (day) {
+            case 1:
+                System.out.println("Monday");
+                break;
+            case 2:
+                System.out.println("Tuesday");
+                break;
+            case 3:
+                System.out.println("Wednesday");
+                break;
+            default:
+                System.out.println("Invalid day");
+        }
+    }
+}
+```
+
+**Output:**
+
+```
+Wednesday
+```
+
+---
+
+## **7. Example 2: String in Switch**
+
+```java
+public class StringSwitch {
+    public static void main(String[] args) {
+        String browser = "chrome";
+
+        switch (browser) {
+            case "chrome":
+                System.out.println("Launching Chrome...");
+                break;
+            case "firefox":
+                System.out.println("Launching Firefox...");
+                break;
+            case "edge":
+                System.out.println("Launching Edge...");
+                break;
+            default:
+                System.out.println("Unsupported Browser");
+        }
+    }
+}
+```
+
+**Output:**
+
+```
+Launching Chrome...
+```
+
+---
+
+## **8. Example 3: Fall-Through Example**
+
+```java
+public class FallThroughExample {
+    public static void main(String[] args) {
+        int number = 2;
+
+        switch (number) {
+            case 1:
+                System.out.println("One");
+            case 2:
+                System.out.println("Two");
+            case 3:
+                System.out.println("Three");
+                break;
+            default:
+                System.out.println("Invalid");
+        }
+    }
+}
+```
+
+**Output:**
+
+```
+Two
+Three
+```
+
+**Explanation:**
+Since there is **no `break` after case 2**, the execution “falls through” to case 3.
+
+---
+
+## **9. Example 4: Using Enum in Switch**
+
+```java
+enum Day {
+    MON, TUE, WED, THU, FRI, SAT, SUN
+}
+
+public class EnumSwitch {
+    public static void main(String[] args) {
+        Day today = Day.WED;
+
+        switch (today) {
+            case MON:
+                System.out.println("Start of the week!");
+                break;
+            case WED:
+                System.out.println("Midweek day!");
+                break;
+            case FRI:
+                System.out.println("Weekend is near!");
+                break;
+            default:
+                System.out.println("Enjoy your day!");
+        }
+    }
+}
+```
+
+**Output:**
+
+```
+Midweek day!
+```
+
+---
+
+## **10. Example 5: Java 14 Enhanced Switch Statement**
+
+Java 14 introduced an **enhanced switch expression** that allows returning values directly.
+
+### **Syntax:**
+
+```java
+String result = switch (expression) {
+    case value1 -> "Result 1";
+    case value2 -> "Result 2";
+    default -> "Default Result";
+};
+```
+
+### **Example:**
+
+```java
+public class EnhancedSwitch {
+    public static void main(String[] args) {
+        int day = 5;
+
+        String type = switch (day) {
+            case 1, 2, 3, 4, 5 -> "Weekday";
+            case 6, 7 -> "Weekend";
+            default -> "Invalid";
+        };
+
+        System.out.println(type);
+    }
+}
+```
+
+**Output:**
+
+```
+Weekday
+```
+
+---
+
+## **11. Advantages of Switch Statement**
+
+✅ **Improves code readability**
+✅ **Faster execution** compared to multiple `if-else` conditions
+✅ **Compact structure** for multiple comparisons
+✅ **Supports modern features** like switch expressions (Java 14+)
+
+---
+
+## **12. Limitations**
+
+❌ Only works with **discrete values**, not ranges or conditions (like `<`, `>`).
+❌ **Fall-through** can cause unintended results if `break` is omitted.
+❌ **Not ideal** for complex decision-making logic.
+
+---
+
+## **13. Summary**
+
+| Feature              | Description                          |
+| -------------------- | ------------------------------------ |
+| **Introduced in**    | Java 1.0                             |
+| **Supports**         | byte, short, char, int, enum, String |
+| **Enhanced version** | Java 14 (switch expressions)         |
+| **Default block**    | Optional                             |
+| **Break keyword**    | Prevents fall-through                |
+
+---
+
+## **14. Practice Exercise**
+
+**Q1:** Write a program using a switch statement to display the month name based on month number.
+**Q2:** Modify the program to use **enhanced switch** syntax (Java 14+).
+**Q3:** Create a switch that uses an **enum** to represent traffic light colors.
+
+---
+
+## **15. Conclusion**
+
+The `switch` statement is a **powerful decision-making construct** that simplifies code where multiple conditions depend on a single variable.
+With Java’s **enhanced switch expression**, it’s now even more concise and expressive.
+
+---
