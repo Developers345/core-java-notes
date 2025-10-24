@@ -683,3 +683,203 @@ The `switch` statement is a **powerful decision-making construct** that simplifi
 With Java’s **enhanced switch expression**, it’s now even more concise and expressive.
 
 ---
+
+# Java Switch Expression Example
+
+## Enum Declaration
+
+```java
+enum TRAFFIC_LIGHT {
+    RED, YELLOW, GREEN, P;
+}
+````
+
+---
+
+## Switch Expression Example in Java
+
+```java
+public class SwitchExpressionTest {
+
+    public static void main(String[] args) {
+
+        int number = 11;
+        String resultNumber;
+
+        resultNumber = switch (Integer.compare(number, 0)) {
+            case 0 -> "Zero";
+            case 1 -> {
+                if (number % 2 == 0)
+                    yield "Positive & Even";
+                else
+                    yield "Positive & Odd";
+            }
+            case -1 -> "Negative";
+            default -> throw new IllegalStateException("Unexpected value: " + Integer.compare(number, 0));
+        };
+
+        System.out.println(resultNumber);
+
+        TRAFFIC_LIGHT light = TRAFFIC_LIGHT.P;
+        String trafficLightResult;
+
+        trafficLightResult = switch (light) {
+            case RED -> "Please Stop";
+            case YELLOW -> "Be ready to slow down";
+            case GREEN -> "Please Go";
+            default -> "Please check the signal and go";
+        };
+
+        System.out.println(trafficLightResult);
+
+        int monthNumber = 7;
+        String result;
+
+        result = switch (monthNumber) {
+            case 1 -> "Jan";
+            case 2 -> "Feb";
+            case 3 -> "Mar";
+            case 4 -> "Apr";
+            case 5 -> "May";
+            case 6 -> "Jun";
+            case 7 -> "Jul";
+            case 8 -> "Aug";
+            case 9 -> "Sep";
+            case 10 -> "Oct";
+            case 11 -> "Nov";
+            case 12 -> "Dec";
+            /*
+             * Default is optional but when you return anything, then default is mandatory
+             */
+            default -> throw new IllegalStateException("Unexpected value: " + monthNumber);
+        };
+
+        System.out.println("Month is: " + result);
+    }
+}
+```
+
+---
+
+## Traditional Switch Statement Example (Commented)
+
+```java
+/* 
+int monthNumber = 7;
+
+switch(monthNumber) {
+    case 1:
+        System.out.println("January");
+        break;
+    case 2:
+        System.out.println("February");
+        break;
+    case 3:
+        System.out.println("March");
+        break;
+    case 4:
+        System.out.println("April");
+        break;
+    case 5:
+        System.out.println("May");
+        break;
+    case 6:
+        System.out.println("June");
+        break;
+    case 7:
+        System.out.println("July");
+        break;
+    case 8:
+        System.out.println("August");
+        break;
+    case 9:
+        System.out.println("September");
+        break;
+    case 10:
+        System.out.println("October");
+        break;
+    case 11:
+        System.out.println("November");
+        break;
+    case 12:
+        System.out.println("December");
+        break;
+    default:
+        System.out.println("Invalid option");
+}
+*/
+```
+
+---
+
+## String-Based Switch Example (Commented)
+
+```java
+/*
+String browser = "safari";
+
+switch(browser) {
+    case "chrome":
+        System.out.println("Loading Chrome");
+        break;
+    case "firefox":
+        System.out.println("Loading Firefox");
+        break;
+    default:
+        System.out.println("Loading another browser");
+}
+*/
+```
+
+---
+
+## Enum-Based Switch Example (Commented)
+
+```java
+/*
+DayOfWeek dayOfWeek = DayOfWeek.FRIDAY;
+
+switch(dayOfWeek) {
+    case MONDAY:
+        System.out.println("Weekday");
+        break;
+    case FRIDAY:
+        System.out.println("Weekend near to you");
+        break;
+    default:
+        System.out.println("Weekend");
+}
+*/
+```
+
+---
+
+## Integer-Based Switch Example (Commented)
+
+```java
+/*
+int day = 1;
+
+switch(day) {
+    case 1:
+        System.out.println("Start of weekday");
+        break;
+    case 2:
+        System.out.println("Weekday");
+        break;
+    case 3:
+        System.out.println("Mid weekday");
+        break;
+    default:
+        System.out.println("Weekday! Enjoy");
+}
+*/
+```
+
+# Program Output
+
+```
+Positive & Odd
+Please check the signal and go
+Month is: Jul
+
