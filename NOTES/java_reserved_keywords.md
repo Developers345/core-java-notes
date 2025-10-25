@@ -342,4 +342,356 @@ In summary, using the `this` keyword is **memory-efficient**, as it only provide
 
 <img width="1307" height="683" alt="Screenshot 2025-10-19 065958" src="https://github.com/user-attachments/assets/42d53a35-90a5-4ff1-99fc-943aa9ae13ee" />
 
+# Final Keyword in Java
 
+## What is `final`? Why is it introduced?
+
+- `final` is a **keyword** and it is a **reserved word** in Java.  
+- Whenever we want to make a value **constant**, Java provides the `final` keyword to achieve this.
+
+---
+
+## How to Use `final` with Variables?
+
+- Once you assign a value to a `final` variable, **reassignment is not possible**.  
+- We can declare `final` variables inside **both static and non-static methods** without any issue.
+
+---
+
+### Example Program: Local Final Variables in Static and Non-Static Methods
+
+```java
+public class FinalKeywordTest {
+
+    public static void main(String[] args) {
+        final int i = 10;
+        i = 67; // ❌ Reassign not possible
+
+        final int k;
+        k = 12; // ✅ First-time assignment is possible
+        k = 56; // ❌ Reassign not possible
+    }
+
+    public void show() {
+        final int j = 90;
+        j = 78; // ❌ Reassign not possible
+    }
+}
+````
+# Object Scope of Non-Static Final Variables in Java
+
+## Explanation
+
+- The **object scope** of variables (non-static) declared in a class means that each object of the class gets its own copy of those variables.  
+- For `final` non-static variables, **you cannot reassign them inside any method** of the class because Java cannot determine which method will be called first.  
+- However, **you can assign a value in the constructor**, since the constructor is executed during **object creation**, making it the **first-time initialization** point.
+
+---
+
+### Example Program: Non-Static Final Variables with Object Scope
+
+```java
+public class FinalKeywordTest {
+
+    final int h; // Object-scope, class-level declared non-static attribute
+
+    public FinalKeywordTest() {
+        h = 89; // ✅ Assignment through constructor is allowed (first-time initialization)
+    }
+
+    public static void main(String[] args) {
+        // Object creation
+        FinalKeywordTest obj = new FinalKeywordTest();
+    }
+
+    public void show() {
+        h = 67; // ❌ Not allowed — reassignment to final variable
+    }
+}
+````
+
+# Static Final Variables in Java
+
+## Explanation
+
+- For **class-level static variables**, you **cannot assign values inside a constructor**, not even for the first time.  
+- This is because **static variables’ memory is allocated before object creation**, meaning constructors (which run during object creation) cannot modify them.  
+- Static `final` variables must be initialized **at the time of declaration** or **inside a static block**.
+
+---
+
+### Example Program: Static Final Variables
+
+```java
+public class FinalKeywordTest {
+
+    final static int h = 0; // ✅ Initialization at declaration
+    static final int y = 0; // ✅ Initialization at declaration
+
+    public FinalKeywordTest() {
+        h = 89; // ❌ Not allowed — cannot assign inside constructor
+        y = 90; // ❌ Not allowed — cannot assign inside constructor
+    }
+
+    public static void main(String[] args) {
+        // Object creation
+        FinalKeywordTest obj = new FinalKeywordTest();
+    }
+}
+````
+
+## Naming Convention for Constants
+
+* Constant names or `final` variable names should be written in **UPPER_CASE** to distinguish them from regular variables.
+* This convention improves **readability** and **understanding** of the code.
+
+> ⚠️ Note: This is a **Java recommendation**, not a mandatory rule.
+
+# Example: Regular vs Final Variables in Java
+
+```java
+int age = 50;       // Regular variable
+final double PI = 3.14;  // Final variable (constant)
+````
+
+---
+
+✅ **Explanation:**
+
+* `age` is a **regular variable**, so its value can be changed later in the program.
+* `PI` is declared as **final**, meaning its value **cannot be modified** after initialization.
+
+
+# Using `final` with Method Parameters in Java
+
+## Explanation
+
+- When a parameter is declared as **`final`**, its value **cannot be modified** within the method.  
+- This ensures that the parameter acts as a **read-only variable** inside the method.
+
+---
+
+### Example Program: Final Parameters
+
+```java
+public class FinalKeywordTest {
+
+    public static void main(String[] args) {
+        FinalKeywordTest finalKeywordTest = new FinalKeywordTest();
+        finalKeywordTest.show(100);
+    }
+
+    public void show(final int p) {
+        p = 78; // ❌ Not possible — reassignment to final parameter
+        System.out.println(p);
+    }
+}
+````
+
+---
+
+✅ **Key Points:**
+
+* `final` parameters prevent **accidental changes** to the passed arguments.
+* Commonly used to ensure **data integrity** within methods.
+* The parameter can be **read** but **not modified** inside the method.
+
+# Using `final` with Methods in Java
+
+## How to Use `final` with Methods?
+
+- If you don't want other classes to **override** a method, declare it using the `final` keyword.  
+- You can also add the `final` keyword to the `main` method.  
+  However, even without `final`, the `main` method **cannot be overridden** (since it’s static).
+
+---
+
+## Example
+
+```java
+public class FinalKywordTest {
+
+    public final static void main(String[] args) {
+        // Main method declared as final
+    }
+
+    public final void show(final int p) {
+        // Method declared as final
+    }
+}
+
+class Program2 extends FinalKywordTest {
+
+    @Override
+    public final void show(final int p) { // ❌ Not possible to override
+        // Compilation error
+    }
+
+    public static void main(String[] args) { // ❌ Not possible to override
+        args = new String[]{"Gireesh"};
+        System.out.println(args);
+    }
+}
+````
+
+---
+
+## Compilation Errors
+
+```
+'show(int)' cannot override 'show(int)' in 'com.jp.finalkeyword.FinalKywordTest';
+overridden method is final
+
+'main(String[])' cannot override 'main(String[])' in 'com.jp.finalkeyword.FinalKywordTest';
+overridden method is final
+```
+
+---
+
+✅ **Key Point:**
+A `final` method **cannot be overridden** by a subclass. This ensures that the method’s behavior remains consistent across inheritance.
+
+# Using `final` with Classes in Java
+
+## How to Use `final` with Classes?
+
+- If you don't want other classes to perform **inheritance**, declare the class as `final`.  
+- When a class is marked as `final`, **method overriding is also not possible**, since no class can extend it.
+
+---
+
+## Example Program
+
+```java
+public final class FinalKywordTest {
+
+    static final int h = 0;
+
+    public FinalKywordTest() {
+        // h = 89; // ❌ Not allowed because 'h' is final
+    }
+
+    public final static void main(String[] args) {
+        // Main method
+    }
+
+    public final void show(final int p) {
+        // Final method
+    }
+}
+
+class Program2 extends FinalKywordTest { // ❌ Inheritance not possible because class is final
+
+    // @Override
+    /*
+    public final void show(final int p) {
+        // Not possible — parent class is final
+    }
+    */
+
+    /*
+    public static void main(String[] args) {
+        args = new String[]{"Gireesh"};
+        System.out.println();
+    }
+    */
+}
+````
+
+---
+
+## Compilation Error
+
+```
+Cannot inherit from final 'com.jp.finalkeyword.FinalKywordTest'
+```
+
+---
+
+✅ **Key Point:**
+A `final` class **cannot be extended** by any other class. This ensures the class’s design and implementation remain unchanged, providing immutability and security in your program.
+
+# Abstract Class in Java
+
+## Key Points
+
+- We **cannot make an abstract class as final** because the main purpose of an abstract class is to allow **other classes to implement its abstract methods**.  
+  If we declare it as `final`, it **cannot be extended**, and hence the purpose of abstraction is lost.
+
+- However, we **can declare non-abstract methods as `final`** inside an abstract class.  
+  This prevents subclasses from overriding those specific methods.
+
+---
+
+## Example
+
+```java
+final abstract class Test1 {
+    public final void display() {
+        System.out.println("display");
+    }
+
+    abstract void draw();
+}
+````
+
+### Compilation Error
+
+```
+Illegal combination of modifiers 'abstract' and 'final'
+```
+
+---
+
+## Additional Note
+
+* Inside an **interface**, all variables are **public**, **static**, and **final** by default.
+  This means interface variables act as constants and cannot be modified.
+
+
+# Important Points to Remember
+
+---
+
+## Difference Between `final` and `const`
+
+- In **C and C++**, developers use the `const` keyword to make a variable constant.  
+- In **Java**, the same functionality is achieved using the **`final`** keyword.  
+- The **`const`** keyword exists in Java syntax but is **not used** — it is a **reserved keyword** with no implementation purpose.
+
+---
+
+## Difference Between `final`, `finally`, and `finalize()`
+
+| Keyword / Method | Type | Usage |
+|------------------|------|--------|
+| `final` | Keyword | Used to declare constants, prevent method overriding, or prevent inheritance of a class. |
+| `finally` | Block | Used in **exception handling**. The `finally` block always executes whether an exception occurs or not. |
+| `finalize()` | Method | Used by the **Garbage Collector** to clean up unreferenced objects before memory deallocation. *(Deprecated since Java 9)* |
+
+---
+
+## Example — `final` with Objects
+
+```java
+final StringBuilder sb = new StringBuilder("Hello");
+sb.append("Reedy");               // ✅ Allowed — content modification
+sb = new StringBuilder("Hi");     // ❌ Not allowed — cannot reassign final reference
+System.out.println(sb);
+````
+
+### Explanation:
+
+* The `final` keyword **does not make the object immutable**.
+* It only prevents the variable reference (`sb`) from pointing to a new object.
+* You can still **modify the internal state** of the object (like appending text to `StringBuilder`).
+
+---
+
+## Additional Notes
+
+* A `final` variable **can be assigned to `null`**, but only once.
+* You can also declare a **blank final variable**, which must be **initialized later** (for example, inside a constructor).
+
+
+## How to create custom immutable object?
