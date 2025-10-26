@@ -883,3 +883,186 @@ Positive & Odd
 Please check the signal and go
 Month is: Jul
 
+
+# Enum in Java
+
+## What is Enum? Why was it introduced?
+
+- To store multiple constants, Java introduced **Enum** in version **1.5**.  
+- Enum provides **type-safety**, ensuring only predefined constants are used.  
+- Enum is a **special data type** in Java.  
+- `enum` is a **keyword**, and internally every enum is treated as a **class**.
+
+---
+
+## Syntax of Enum
+
+```java
+enum Days {
+    MONDAY, TUESDAY; // These are all objects of the Days class
+}
+````
+
+---
+
+### Internally, it looks like:
+
+```java
+class Days {
+    public static final Days MONDAY = new Days();
+    public static final Days TUESDAY = new Days();
+}
+```
+
+* We **cannot** create explicit objects for an enum.
+* We **cannot** extend an enum class because it implicitly extends `java.lang.Enum`.
+
+---
+
+## Example: Simple Enum
+
+```java
+enum Days {
+    MONDAY, TUESDAY; // These are all objects of the Days class
+}
+```
+
+# Example Program — Enum in Java
+
+---
+
+## Own Enum Class (Without Using `enum` Keyword)
+
+```java
+public final class Days {
+    static final String MONDAY = "Mon";
+    static final String TUEDAY = "Tue";
+    static final String WEDNESDAY = "Wed";
+    static final String THURSDAY = "Thu";
+    static final String FRIDAY = "Fri";
+    static final String SATURDAY = "Sat";
+    static final String SUNDAY = "Sun";
+
+    final static String[] days = {
+        MONDAY,
+        TUEDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY,
+        SATURDAY,
+        SUNDAY
+    };
+}
+````
+
+---
+
+## Enum Test Class
+
+```java
+public class EnumTest {
+
+    public static void main(String[] args) {
+
+        /*
+        Earlier, constants were declared inside methods or classes using final variables.
+        The problem was lack of type-safety and possibility of modification.
+        Enum solves these issues.
+        */
+
+        Week day = Week.MONDAY; // Using Enum we achieve type-safety
+
+        // Enum class default methods
+        System.out.println(day.getClass().getSuperclass());
+
+        Week[] days = Week.values();
+        for (Week d : days) {
+            System.out.println(d);
+        }
+
+        System.out.println(day.name());
+        System.out.println(day.ordinal());
+
+        if (day == Week.MONDAY ||
+            day == Week.TUEDAY ||
+            day == Week.WENDESDAY ||
+            day == Week.THURSDAY ||
+            day == Week.FRIDAY) {
+            System.out.println("This is weekday, it is " + day.dayNo + "th day " + day + " >>> " + day.status);
+        }
+        else if (day == Week.SATURDAY || day == Week.SUNDAY) {
+            System.out.println("Weekend!!!, it is " + day.dayNo + "th day " + day + " >>> " + day.status);
+        }
+
+        String result;
+        result = switch (day) {
+            case MONDAY, TUEDAY, WENDESDAY, THURSDAY, FRIDAY ->
+                "weekday, it is " + day.dayNo + "th day " + day + " >>> " + day.status;
+            case SATURDAY, SUNDAY ->
+                "weekend!!!, it is " + day.dayNo + "th day " + day + " >>> " + day.status;
+        };
+        System.out.println(result);
+    }
+}
+```
+
+---
+
+## Enum Class Definition
+
+```java
+public enum Week {
+    // Enum constants — must be declared before variables
+    MONDAY(1, "Opened"),
+    TUEDAY(2, "Opened"),
+    WENDESDAY(3),
+    THURSDAY(4, "Opened"),
+    FRIDAY(5),
+    SATURDAY(6),
+    SUNDAY(7);
+
+    // Instance variables (implicitly final)
+    int dayNo;
+    String status = "Closed";
+
+    /*
+     * We cannot create enum objects explicitly.
+     * Therefore, Java makes the constructor private.
+     * When you define your own constructor, the default constructor is removed.
+     */
+
+    private Week(int dayNo) {
+        this.dayNo = dayNo;
+    }
+
+    // Use case: Specific days where the status differs (e.g., book stall opened only on a few days)
+    private Week(String status) {
+        this.status = status;
+    }
+
+    private Week(int dayNo, String status) {
+        this.dayNo = dayNo;
+        this.status = status;
+    }
+}
+```
+
+---
+
+## Output
+
+```
+class java.lang.Enum
+MONDAY
+TUEDAY
+WENDESDAY
+THURSDAY
+FRIDAY
+SATURDAY
+SUNDAY
+MONDAY
+0
+This is weekday, it is 1th day MONDAY >>> Opened
+weekday, it is 1th day MONDAY >>> Opened
+```
+
