@@ -695,3 +695,210 @@ System.out.println(sb);
 
 
 ## How to create custom immutable object?
+
+# super Keyword in Java
+
+## What is `super`? Why It Is Introduced
+- `super` is a reserved keyword in Java.  
+- We **cannot** use the `super` keyword as a variable name or method name.  
+
+## Thumb Rule
+- If you build a **parent and child relationship (inheritance)**, then only the `super` keyword is applicable.
+
+## How to Use `super` with Variables
+
+- Local variable scope is within the method itself, so we **cannot use the `super` keyword** for local variables.  
+- The `super` keyword is applicable for both **static** and **non-static** variables in a class.
+
+### Note:
+- Using the `super` keyword for static variables will not throw an error,  
+  but Java gives a **warning**:  
+  `"Static variable should be accessed through the class name itself."`
+
+- The `super` keyword is **never used inside static methods or static blocks** (i.e., inside a static context).
+
+---
+
+## How to Use `super` with Methods
+
+- The `super` keyword can be used to **call the parent class method** and **add additional functionality** without modifying the parent class method.
+
+- If you want to completely change the parent class method’s behavior,  
+  you can **override** the superclass method.
+
+- We can access **parent class variables and methods** using the `super` keyword.  
+  If the variable or method is not found in the parent class, Java will check the **grandparent class**, following a **bottom-to-top** search hierarchy.
+
+- However, we **cannot directly access grandparent class members**.
+
+- If the grandparent class also does not contain the variable or method,  
+  Java will throw an **exception**.  
+  Java will not check interfaces directly — to access interface members, you can use:
+
+  ```java
+  ParentInterface.name;
+
+# Using `super` with Constructors in Java
+
+## Key Points
+
+- For **default constructors**, the Java compiler **implicitly** calls `super()` inside the child class constructor to invoke the parent class constructor.
+
+- If you do not declare a default constructor in the parent class,  
+  Java will **automatically provide a default constructor** and call it from the child class constructor using `super()`.
+
+- Once you **declare an explicit constructor**, Java will **not** insert a default constructor in the child class.  
+  Even in a parameterized child class constructor, Java places `super()` **implicitly**.
+
+- A call to `super()` **must be the first statement** in the constructor body.  
+  You **cannot duplicate** the `super()` call.
+
+---
+
+## Constructor Dependency Rules
+
+- If the **parent class** has a **parameterized constructor** but no default constructor,  
+  the **child class constructor** will throw the following error:
+
+```
+
+There is no parameterless constructor available in 'com.jp.superkeyword.ParentClass'
+
+```
+
+### How to Resolve
+- Add a **default constructor** in the parent class (you may use it or not).  
+**OR**  
+- Call the **parameterized constructor** of the parent class using `super(40);`
+
+---
+
+## Important Notes
+
+- `super();` or `this();` must be the **first statement** of any constructor.  
+You **cannot** use both `this()` and `super()` together in the same constructor.
+
+- The `super` keyword **can be used in a final class**, because the **parent class of a final class is not final**.
+```
+
+````markdown
+# Example Program: Using `super` Keyword in Java
+
+```java
+interface ParentInterface {
+    String name = "Gopi";
+}
+
+class GrandParentClass {
+    String name = "Ganesh";
+}
+
+class ParentClass extends GrandParentClass {
+
+    public ParentClass() {
+        System.out.println("default constructor from parent class");
+    }
+
+    public ParentClass(int i) {
+        System.out.println("Parent class parameterized constructor");
+    }
+
+    // String name = "Yadagiri";
+    int age = 32;
+
+    public void printDetails() {
+        System.out.println("Printing from parent class details");
+        System.out.println(name + " >>> " + age);
+    }
+}
+
+public final class ChildClass extends ParentClass implements ParentInterface {
+
+    String name = "Giri";
+
+    /*
+    public ChildClass() {
+        super(); // implicitly added by Java for default constructor of child class
+        System.out.println("child class constructor");
+    }
+    */
+
+    /*
+    If parent class has a parameterized constructor present without a default constructor,
+    then the child class constructor throws the below error:
+
+    There is no parameterless constructor available in 'com.jp.superkeyword.ParentClass'
+
+    To resolve this issue:
+    - Add a default constructor in the parent class (optional to use), OR
+    - Call the parent class parameterized constructor using super(40);
+    */
+
+    public ChildClass(int i) {
+        // this(); // this() is used to call another constructor within the same class
+        super(40);
+        System.out.println("parameter constructor from child class");
+        // super();  // Call to 'super()' must be the first statement in the constructor body.
+    }
+
+    public ChildClass() {
+    }
+
+    public static void main(String[] args) {
+        ChildClass cc = new ChildClass(1);
+        cc.dummy();
+        cc.printDetails();
+
+        // System.out.println(super.name);
+        // super keyword never used inside static methods or blocks (static context).
+        // Because super deals with the superclass instance (object), it cannot be used in a static context.
+    }
+
+    public void dummy() {
+        System.out.println(this.name); // prints "Giri" because child class overrides the name variable
+
+        /*
+        Here, Java first checks for the variable locally, then in the class, then in the parent class.
+        */
+
+        System.out.println(super.name); // calls the superclass variable using the super keyword
+
+        /*
+        If the child class does not override the superclass variable, do not use the super keyword unnecessarily.
+        This avoids confusion for other developers. Java does not throw an error, but avoiding it is good practice.
+        */
+
+        /*
+        The super keyword is applicable for both static and non-static variables in a class.
+        Using super for static variables will not throw an error, but Java gives a warning:
+        "Static variable should be accessed through the class name itself."
+        */
+
+        // super.printDetails();
+
+        System.out.println(ParentInterface.name);
+    }
+
+    public void printDetails() {
+        super.printDetails();
+        System.out.println("Additional functionality");
+    }
+}
+````
+
+---
+
+### **Output:**
+
+```
+Parent class parameterized constructor
+parameter constructor from child class
+Giri
+Ganesh
+Gopi
+Printing from parent class details
+Ganesh>>>32
+Additional functionality
+
+
+
