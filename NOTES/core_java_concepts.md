@@ -1066,3 +1066,598 @@ This is weekday, it is 1th day MONDAY >>> Opened
 weekday, it is 1th day MONDAY >>> Opened
 ```
 
+# Generics in Java
+
+The below example shows how we can create multiple box classes for storing almonds and cashews.  
+However, this is **not a good practice** because if your project supports 20 types of dry fruits,  
+then the code becomes very large and may lead to **code duplication**.  
+To resolve this problem, we can use **Object type** or, more effectively, **Generics**.
+
+---
+
+## Before Generic Example
+
+```java
+public class GenericTest {
+
+    public static void main(String[] args) {
+
+        AlmondBox almondBox = new AlmondBox(2);
+        almondBox.add(new Almond("India Almond"));
+        almondBox.add(new Almond("America Almond"));
+
+        System.out.println(almondBox.getAlmond(1));
+
+        CashewBox cashewBox = new CashewBox(2);
+        cashewBox.add(new Cashew("India Cashew"));
+        cashewBox.add(new Cashew("America Cashew"));
+
+        System.out.println(cashewBox.getCashew(1));
+    }
+}
+
+class Almond {
+    String name;
+
+    public Almond(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Almond{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+class Cashew {
+    String name;
+
+    public Cashew(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Cashew{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+class AlmondBox {
+    Almond[] almonds;
+    int index;
+
+    public AlmondBox(int size) {
+        almonds = new Almond[size];
+        index = 0;
+    }
+
+    public void add(Almond almond) {
+        almonds[index] = almond;
+        index++;
+    }
+
+    public Almond getAlmond(int i) {
+        return almonds[i];
+    }
+}
+
+class CashewBox {
+    Cashew[] cashews;
+    int index;
+
+    public CashewBox(int size) {
+        cashews = new Cashew[size];
+        index = 0;
+    }
+
+    public void add(Cashew cashew) {
+        cashews[index] = cashew;
+        index++;
+    }
+
+    public Cashew getCashew(int i) {
+        return cashews[i];
+    }
+}
+````
+
+---
+
+## Output
+
+Almond{name='America Almond'}
+Cashew{name='America Cashew'}
+-----
+
+# Using Object Type in Java
+
+### Concept
+
+- Create one class and make it as an **Object type** with multiple objects.  
+  However, there is one problem — we **cannot restrict what type of data** can be stored in that object.
+
+- Instead of creating multiple classes, create **one Object-type class** and then create multiple objects for that class.
+
+### Limitations of Using Object Type
+
+Even though this reduces code duplication, there are **two major problems**:
+
+1. We cannot prevent adding the wrong data type into the object.
+2. If wrong data is added, the error will occur at **runtime**, not at **compile time**.
+
+---
+
+## Example Program Using Object Type
+
+```java
+public class GenericTest {
+
+    public static void main(String[] args) {
+
+        Box box = new Box(3);
+        box.add(new Almond("India Almond"));
+        box.add(new Almond("America Almond"));
+        box.add("Hello");
+
+        System.out.println((Almond) box.get(2));
+
+        Box box1 = new Box(3);
+        box1.add(new Cashew("India Cashew"));
+        box1.add(new Cashew("America Cashew"));
+
+        System.out.println((Cashew) box1.get(1));
+    }
+}
+
+class Almond {
+    String name;
+
+    public Almond(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Almond{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+class Cashew {
+    String name;
+
+    public Cashew(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Cashew{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+class Box {
+    Object[] dryFruits;
+    int index;
+
+    public Box(int size) {
+        dryFruits = new Object[size];
+        index = 0;
+    }
+
+    public void add(Object almond) {
+        dryFruits[index] = almond;
+        index++;
+    }
+
+    public Object get(int i) {
+        return dryFruits[i];
+    }
+}
+````
+
+---
+
+## Output
+
+Almond{name='America Almond'}
+Cashew{name='America Cashew'}
+
+
+# Runtime Exception Example in Java (Using Object Type)
+
+### Description
+
+The below snippet demonstrates how using the **Object type** without proper type checking can lead to a **runtime exception** (`ClassCastException`).
+
+---
+
+## Example Code
+
+```java
+Box box = new Box(3);
+box.add(new Almond("India Almond"));
+box.add(new Almond("America Almond"));
+
+System.out.println((Almond) box.get(1));
+
+Box box1 = new Box(3);
+box1.add(new Cashew("India Cashew"));
+box1.add(new Cashew("America Cashew"));
+box1.add("Hello");
+
+System.out.println((Cashew) box1.get(2));
+````
+
+---
+
+## Runtime Exception
+
+```
+Exception in thread "main" java.lang.ClassCastException:
+class java.lang.String cannot be cast to class com.jp.generics.Cashew
+(java.lang.String is in module java.base of loader 'bootstrap';
+ com.jp.generics.Cashew is in unnamed module of loader 'app')
+```
+
+---
+
+### Explanation
+
+* The above error occurs because `"Hello"` (a `String` object) is added to the `Box` which is expected to contain `Cashew` objects.
+* During retrieval, the code attempts to cast `"Hello"` to a `Cashew`, resulting in a **`ClassCastException`**.
+* This demonstrates why **Generics** were introduced in Java — to ensure **type safety at compile time** and prevent such **runtime errors**.
+
+
+# What Are Generics in Java
+
+### Definition
+
+- **Generics** means **type-inferer**.  
+- Generics are used to enable **type safety**, **compile-time checks**, and **code reusability**.
+
+---
+
+## Example Program with Generics
+
+```java
+public class GenericTest {
+
+    public static void main(String[] args) {
+
+        // Box<Almond> box = new Box<Almond>(3);
+        // -> Here, writing <Almond> again on the right side is not required.
+        // Because of type inference, Java automatically understands it.
+        // To avoid redundancy, we can simply write:
+
+        Box<Almond> box = new Box<>(3);
+        box.add(new Almond("India Almond"));
+        box.add(new Almond("America Almond"));
+        // box.add("World"); -> Compile-time error: prevents adding wrong data.
+
+        System.out.println((Almond) box.get(1));
+
+        Box<Cashew> box1 = new Box<>(3);
+        box1.add(new Cashew("India Cashew"));
+        box1.add(new Cashew("America Cashew"));
+        // box1.add("Hello"); -> Compile-time error: type safety check.
+
+        System.out.println((Cashew) box1.get(1));
+    }
+}
+
+class Almond {
+    String name;
+
+    public Almond(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Almond{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+class Cashew {
+    String name;
+
+    public Cashew(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Cashew{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+class Box<T> {
+    T[] dryFruits;
+    int index;
+
+    public Box(int size) {
+        dryFruits = (T[]) new Object[size];
+        index = 0;
+    }
+
+    public void add(T object) {
+        dryFruits[index] = object;
+        index++;
+    }
+
+    public T get(int i) {
+        return dryFruits[i];
+    }
+}
+````
+
+---
+
+## Output
+
+```
+Almond{name='America Almond'}
+Cashew{name='America Cashew'}
+```
+
+---
+
+### Key Points
+
+* Generics help ensure that **only the correct data type** is used in collections or classes.
+* **Compile-time checking** prevents type mismatch errors early.
+* Promotes **code reusability** by allowing the same class to work with different data types.
+
+
+# Generic Methods in Java
+
+## Introduction
+
+Generic methods allow you to write **a single method** that can operate on objects of various types, without the need for method overloading.  
+They enable **type safety**, **code reusability**, and **compile-time checks**.
+
+---
+
+## Example Program Without Generics
+
+```java
+public class GenericTest {
+
+    public static void main(String[] args) {
+        swap(1, 2);
+        swap("Hello", "World");
+    }
+
+    public static void swap(int i, int j) {
+        System.out.println("Before Swapping " + i + " >> " + j);
+        int temp;
+        temp = i;
+        i = j;
+        j = temp;
+        System.out.println("After Swapping --- " + i + " >> " + j);
+    }
+
+    public static void swap(String i, String j) {
+        System.out.println("Before Swapping " + i + " >> " + j);
+        String temp;
+        temp = i;
+        i = j;
+        j = temp;
+        System.out.println("After Swapping --- " + i + " >> " + j);
+    }
+}
+````
+
+### Output
+
+```
+Before Swapping 1 >> 2
+After Swapping---2 >> 1
+```
+
+---
+
+## Example Program **With Generics**
+
+Using Generics, there’s no need to write multiple versions of the same method.
+A single generic method can handle all data types.
+
+```java
+public class GenericTest {
+
+    public static void main(String[] args) {
+        swap("Hello", "World");
+        swap(1, 2);
+        swap(12.5, 16.7);
+        swap(true, false);
+    }
+
+    public static <T> void swap(T i, T j) {
+        System.out.println("Before Swapping " + i + " >> " + j);
+        T temp;
+        temp = i;
+        i = j;
+        j = temp;
+        System.out.println("After Swapping --- " + i + " >> " + j);
+    }
+}
+```
+
+### Output
+
+```
+Before Swapping Hello >> World
+After Swapping---World >> Hello
+
+Before Swapping 1 >> 2
+After Swapping---2 >> 1
+
+Before Swapping 12.5 >> 16.7
+After Swapping---16.7 >> 12.5
+
+Before Swapping true >> false
+After Swapping---false >> true
+```
+
+---
+
+## Notes
+
+* `public static <T> void swap(T i, T j)`
+  → Here, `<T>` tells Java that this method uses **Generics**.
+
+* You can use a **combination of generic and non-generic types** in a method:
+
+  ```java
+  swap("Hello", "World", 45);
+
+  public static <T> void swap(T i, T j, int result) {
+      // combination of generic and normal datatype
+  }
+  ```
+
+* You can also **return generic types** from methods:
+
+  ```java
+  public static <T> T getValue(T value) {
+      return value;
+  }
+  ```
+
+---
+
+### Key Advantages of Generic Methods
+
+* Eliminate method overloading for multiple data types.
+* Provide **compile-time type safety**.
+* Improve **code reusability** and **readability**.
+
+# Bounded Generics in Java
+
+## Definition
+
+- **Bounded Generics** allow us to **restrict (or limit)** the types that can be used as type parameters in a generic class or method.
+
+---
+
+## Types of Bounds
+
+### 1. Upper Bound (`extends`)
+- Syntax: `<T extends Number>`
+- Meaning: This is an **Upper Bound Generic** — it allows **`Number`** and all its **subclasses** (e.g., `Integer`, `Double`, `Float`, etc.).
+
+Example:
+```java
+class Box<T extends Number> {
+    private T value;
+
+    public void set(T value) {
+        this.value = value;
+    }
+
+    public T get() {
+        return value;
+    }
+}
+````
+
+---
+
+### 2. Lower Bound (`super`)
+
+* Syntax: `<? super String>`
+* Meaning: This is a **Lower Bound Generic** — it allows **superclasses of `String`** (like `Object`).
+
+Example:
+
+```java
+List<? super String> list = new ArrayList<Object>();
+```
+
+---
+
+### Note on Methods
+
+```java
+public static <? super Number> void swap(T i, T j);
+```
+
+❌ **Not possible** — you cannot directly use lower-bounded wildcards in method declarations like this.
+
+---
+
+## Common Alphabet Conventions in Generics
+
+| Symbol            | Meaning                   | Usage Example                                   |
+| :---------------- | :------------------------ | :---------------------------------------------- |
+| **T**             | Type                      | General-purpose generic type                    |
+| **E**             | Element                   | Used in collections (e.g., `List<E>`)           |
+| **K**             | Key                       | Used in maps (e.g., `Map<K, V>`)                |
+| **V**             | Value                     | Used in maps for values                         |
+| **N**             | Number                    | Numeric types                                   |
+| **S, U, V, etc.** | Secondary type parameters | Used when multiple type parameters are involved |
+| **?**             | Wildcard                  | Represents an unknown type                      |
+
+---
+
+## Type Erasure
+
+* During **compilation**, Java **removes all generic type information** and sends the compiled bytecode to the **JVM**.
+* This process is known as **Type Erasure**.
+
+### Example:
+
+```java
+List<Integer> list = new ArrayList<>();
+```
+
+At runtime, this becomes:
+
+```java
+List list = new ArrayList();
+```
+
+* Because of **type erasure**, programmers **cannot perform type-related mistakes** at runtime — errors are caught during **compile time**.
+
+---
+
+## Restrictions with Generics
+
+* ❌ **Generics cannot be used with exceptions.**
+
+  * You cannot create generic exception classes or catch blocks like:
+
+    ```java
+    class MyException<T> extends Exception {} // Not allowed
+    ```
+  * You also cannot do:
+
+    ```java
+    catch (T e) { } // Not allowed
+    ```
+
+---
+
+### Summary
+
+* **Upper bound** → `<T extends Class>` → Limits to subclasses.
+* **Lower bound** → `<? super Class>` → Limits to superclasses.
+* **Type Erasure** → Generic info is removed at compile time.
+* **No Generics in Exceptions** → Not supported in Java.
+
+
+
+
+
