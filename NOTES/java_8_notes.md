@@ -259,4 +259,70 @@ interface Square {
    ```java
    Square square = (length, width) -> length * width;
    ```
+   
+# forEach Method in Java
+
+## Overview
+- If you want to perform any operations (like reversing a list), using the **traditional for loop** is fine.  
+- However, if you just want to **print the list values**, then declaring variables, incrementing them, and putting conditions only for printing is not a good approach.  
+  To simplify this, Java introduced the **Enhanced For Loop (for-each loop)**.
+
+---
+
+## When to Use Enhanced For Loop
+- If you **do not require an index** and want to **retrieve elements one by one** from top to bottom, go for the **enhanced for-each loop**.
+- In **Java 8**, functional programming was introduced. It allows using **lambda expressions**, **method chaining**, and writing code in a concise way.
+- However, the **enhanced for loop** still requires multiple lines of code and is considered **external looping**.
+
+---
+
+## Method Chaining and Looping
+- **Method chaining** is **not possible** with traditional for loops or enhanced for-each loops.
+- Traditional and enhanced for loops are **external looping mechanisms**.
+- Java introduced the **forEach() method** in **version 1.8**, which supports:
+  - **Method chaining**
+  - **Functional programming**
+
+---
+
+## Usage
+- The `forEach()` method can be used with **Collection Framework interfaces** and their **implementation classes**.
+- It provides an **internal looping mechanism**.
+
+---
+
+## Consumer Interface
+- The `forEach()` method accepts an instance of the **Consumer** pre-defined functional interface as a parameter.
+- **Consumer** comes from the `java.util.function` package and was introduced in **Java 1.8**.
+
+### Consumer Functional Interface
+```java
+void accept(T t);
+````
+
+* Takes **one parameter** but **returns no value**.
+
+---
+
+## BiConsumer Interface (for Map)
+
+* For the **Map interface**, the `forEach()` method accepts a **BiConsumer** pre-defined functional interface instance as a parameter.
+* **BiConsumer** also comes from the `java.util.function` package and was introduced in **Java 1.8**.
+
+### BiConsumer Functional Interface
+
+```java
+void accept(T t, U u);
+```
+
+* Takes **two parameters (key, value pair)** but **returns no value**.
+
+---
+
+## Important Notes
+
+* The `forEach()` method **cannot be used directly with arrays**.
+
+
+
 
