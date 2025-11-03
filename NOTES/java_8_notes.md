@@ -324,7 +324,8 @@ void accept(T t, U u);
 * The `forEach()` method **cannot be used directly with arrays**.
 
 
-# Example Program: forEach Method in Java
+# Example Program for forEach() Method
+---------------------------------------------
 
 ```java
 import java.util.*;
@@ -349,7 +350,8 @@ public class ForeachMethodPratice {
         }
         */
 
-        // forEach method using Anonymous Inner Class
+        // forEach method
+        // Anonymous inner class
         /*
         Consumer<Integer> con = new Consumer<Integer>() {
             @Override
@@ -368,7 +370,7 @@ public class ForeachMethodPratice {
         map.put(102, "Ramu");
         map.put(103, "Rajesh");
 
-        // forEach method with Anonymous Inner Class for Map
+        // Anonymous inner class
         /*
         BiConsumer<Integer, String> biCon = new BiConsumer<Integer, String>() {
             @Override
@@ -383,10 +385,23 @@ public class ForeachMethodPratice {
         map.forEach((key, value) -> System.out.println(key + " >> " + value));
 
         int[] arr = {1, 7, 9, 4, 7, 0};
-        // arr.forEach -> Directly using forEach method is not supported for arrays.
+        // arr.forEach -> directly support forEach method is not available for arrays.
     }
 }
+````
 
+---
 
+# Output
 
+---
+
+1
+5
+7
+8
+10
+101 >> Ramesh
+102 >> Ramu
+103 >> Rajesh
 
