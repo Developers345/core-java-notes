@@ -324,5 +324,69 @@ void accept(T t, U u);
 * The `forEach()` method **cannot be used directly with arrays**.
 
 
+# Example Program: forEach Method in Java
+
+```java
+import java.util.*;
+import java.util.function.*;
+
+public class ForeachMethodPratice {
+
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 5, 7, 8, 10);
+
+        // Traditional for loop
+        /*
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+        */
+
+        // Enhanced for loop
+        /*
+        for (Integer i : list) {
+            System.out.println(i);
+        }
+        */
+
+        // forEach method using Anonymous Inner Class
+        /*
+        Consumer<Integer> con = new Consumer<Integer>() {
+            @Override
+            public void accept(Integer i) {
+                System.out.println(i);
+            }
+        };
+        */
+
+        // Using Lambda Expression
+        // Consumer<Integer> con = i -> System.out.println(i);
+        list.forEach(i -> System.out.println(i));
+
+        Map<Integer, String> map = new HashMap<>();
+        map.put(101, "Ramesh");
+        map.put(102, "Ramu");
+        map.put(103, "Rajesh");
+
+        // forEach method with Anonymous Inner Class for Map
+        /*
+        BiConsumer<Integer, String> biCon = new BiConsumer<Integer, String>() {
+            @Override
+            public void accept(Integer key, String value) {
+                System.out.println(key + " >> " + value);
+            }
+        };
+        */
+
+        // Using Lambda Expression for Map
+        // BiConsumer<Integer, String> biCon = (key, value) -> System.out.println(key + " >> " + value);
+        map.forEach((key, value) -> System.out.println(key + " >> " + value));
+
+        int[] arr = {1, 7, 9, 4, 7, 0};
+        // arr.forEach -> Directly using forEach method is not supported for arrays.
+    }
+}
+
+
 
 
