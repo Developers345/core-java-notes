@@ -405,3 +405,195 @@ public class ForeachMethodPratice {
 102 >> Ramu
 103 >> Rajesh
 
+# Method Reference in Java
+
+## What is Method Reference?
+
+→ **Method References** in Java are a shorthand, more readable way to use **Lambda Expressions** for invoking methods or constructors.  
+They allow you to reference methods or constructors directly using the `(::)` symbol.
+
+- Using method references, we can simplify lambda expressions.  
+- Simple lambda expressions can be converted into method references.  
+- Complex lambda expressions **cannot** be converted into method references.
+
+---
+
+## Why Do We Need It?
+
+- Cleaner and more concise code  
+- Reduces boilerplate code  
+- Better type inference and generics handling  
+- Reusability of existing methods  
+- Improves performance as well
+
+
+# Types of Method Reference
+
+## 1. Reference to Static Methods
+
+**Example:**
+
+```java
+names.forEach(MethodReferencePratice::greet);
+````
+
+---
+
+## 2. Reference to Instance Methods of a Particular Object
+
+**Example:**
+
+```java
+MethodReferencePratice methodReferencePratice = new MethodReferencePratice();
+names.forEach(methodReferencePratice::print);
+```
+
+---
+
+## 3. Reference to an Instance Method of an Arbitrary Object of a Particular Type
+
+### Description
+
+→ This type of method reference is used when you want to call an **instance method** on each object of a particular class, without referring to any specific instance directly.
+It allows you to refer to an instance method that can be executed on any object of that class.
+
+In Java, this concept is represented using the syntax:
+
+```java
+ClassName::instanceMethodName
+```
+
+It is commonly used with functional interfaces like `Consumer`, `Function`, or `Predicate` — especially in combination with methods such as `forEach()`, `map()`, or `filter()` in the **Stream API**.
+
+---
+
+### Example
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Example {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Ravi", "Kiran", "Sneha", "Arjun");
+
+        // Using a lambda expression
+        names.forEach(name -> System.out.println(name.toUpperCase()));
+
+        // Using method reference (reference to an instance method of a particular type)
+        names.forEach(String::toUpperCase); // creates a stream of uppercase names (no print yet)
+
+        // If you want to print each uppercase name
+        names.stream()
+             .map(String::toUpperCase)
+             .forEach(System.out::println);
+    }
+}
+```
+
+---
+
+### Explanation
+
+* `String::toUpperCase` is a **reference to an instance method** of the `String` class.
+* It means: “Call the `toUpperCase()` method on each `String` object present in the list.”
+* The method reference doesn’t specify which instance to use — it applies to *each* element in the collection automatically.
+
+This approach improves **readability**, **reusability**, and **conciseness** of your code by replacing verbose lambda expressions with simple method references.
+
+# Reference to a Constructor
+
+## Example
+
+```java
+names.forEach(Employeee::new);
+
+```
+
+# Final Example Program
+
+```java
+import java.util.*;
+
+public class MethodReferencePratice {
+
+    public static void main(String[] args) {
+
+        List<String> names = Arrays.asList("Rama", "Ganesh", "Suresh", "Banny");
+
+        // System.out.println(greet("Rama")); method call will not be possible
+
+        // Lambda expression
+        // names.forEach(name -> greet(name));
+
+        // Reference to static methods
+        names.forEach(MethodReferencePratice::greet);
+
+        System.out.println("=============================");
+
+        // Reference to instance method of a particular object
+        MethodReferencePratice methodReferencePratice = new MethodReferencePratice();
+        names.forEach(methodReferencePratice::print);
+
+        System.out.println("============================");
+
+        // Here 'out' is an instance of PrintStream
+        names.forEach(System.out::println);
+
+        System.out.println("=============================");
+
+        // Collections.sort(names, (s1, s2) -> s1.compareTo(s2));
+        // Reference to an instance method of an arbitrary object of a particular type
+        Collections.sort(names, String::compareTo);
+        names.forEach(System.out::println);
+
+        // Reference to a Constructor
+        names.forEach(Employeee::new);
+    }
+
+    public static void greet(String name) {
+        System.out.println("Hey, Hello! my name is " + name);
+    }
+
+    public void print(String name) {
+        System.out.println("My name is " + name + " Good Morning!");
+    }
+}
+
+class Employeee {
+    String name;
+
+    public Employeee(String name) {
+        this.name = name;
+    }
+}
+````
+
+---
+
+## Output
+
+```
+Hey, Hello! my name is Rama
+Hey, Hello! my name is Ganesh
+Hey, Hello! my name is Suresh
+Hey, Hello! my name is Banny
+=============================
+My name is Rama Good Morning!
+My name is Ganesh Good Morning!
+My name is Suresh Good Morning!
+My name is Banny Good Morning!
+============================
+Rama
+Ganesh
+Suresh
+Banny
+=============================
+Banny
+Ganesh
+Rama
+Suresh
+```
+
+
+
