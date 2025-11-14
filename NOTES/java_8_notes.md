@@ -259,6 +259,9 @@ interface Square {
    ```java
    Square square = (length, width) -> length * width;
    ```
+
+## Note
+Lambda expressions are recommended when the method is used in multiple places in the class or outside of the class.
    
 # forEach Method in Java
 
