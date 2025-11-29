@@ -102,6 +102,7 @@ public class OptionalTest {
           ifPresentOrElse() accepts a Consumer and a Runnable.
         */
 
+        // address.ifPresent((a) -> System.out.println(a.length()));
         address.ifPresentOrElse(
                 a -> System.out.println(a.length()),
                 () -> System.out.println("NA")
