@@ -117,6 +117,3 @@ public class OptionalTest {
 ```
 
 ```
-
-If you want, I can also generate a **PDF**, **DOCX**, or **formatted notes** version.
-```
