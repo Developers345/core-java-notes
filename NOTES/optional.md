@@ -1,17 +1,20 @@
-Optional Class in java 
------------------------
-What is Optional 
--> Optional is a class and introduced in 1.8. To aviod the NullPointerException we can use Optional class.
-->Optional is like container. Developer always checks the data is present or not(null check) in optional(container) due to that NullPointerException will be aviod while using Optional class in java 
+# Optional Class in Java
 
-Example Program 
-----------------
-Student.java 
-------------
+## What is Optional?
+- `Optional` is a class introduced in Java 1.8. It is used to avoid `NullPointerException`.
+- Optional works like a **container**. Developers can check whether the value is present or not (null check).  
+  This helps prevent `NullPointerException` while accessing values.
+
+---
+
+## Example Program
+
+### Student.java
+```java
 import java.util.Optional;
 
 public class Student {
-    private  int rollNo;
+    private int rollNo;
     private String Name;
     private String address;
 
@@ -38,73 +41,82 @@ public class Student {
     }
 
     public Optional<String> getAddress() {
-        //return address;
-       // return Optional.of(address);// Here of() method accepts only non-null values
-        return Optional.ofNullable(address);// Returns an Optional describing the given value, if non-null, otherwise returns an empty Optional.
-
+        // return address;
+        // return Optional.of(address); // of() accepts only non-null values
+        return Optional.ofNullable(address); // Returns Optional with value or empty Optional
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
-
-
 }
+````
 
-OptionalTest.java 
------------------
+---
+
+### OptionalTest.java
+
+```java
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class OptionalTest {
-
     public static void main(String[] args) {
         List<Student> studentList = List.of(
-          new Student(101,"Suresh", "Bajara Hills"),
-                new Student(102,"Ramesh", null),
-                new Student(103,"Ganesh", "Hitech City"),
-                new Student(104,"Shiva", ""),
-                new Student(105,"Gowtham", "Madharpur")
-
+                new Student(101, "Suresh", "Bajara Hills"),
+                new Student(102, "Ramesh", null),
+                new Student(103, "Ganesh", "Hitech City"),
+                new Student(104, "Shiva", ""),
+                new Student(105, "Gowtham", "Madharpur")
         );
 
         Student s1 = studentList.get(3);
-        //String address = s1.getAddress();
+
         Optional<String> address = s1.getAddress();
-          /*
-          Here developer cannot know address will same null or value
-        java.lang.NullPointerException: Cannot invoke "String.length()" because "address" is null
-        Usually we handle NullPointerException using if else statement (if(address != null))
-        To Handle the NullPointerException in java 1.8 Optional Class introduced
-         */
-        /*
-          we can simplify the below if-else condition
-
-        if(address.isPresent())
-        {
-            System.out.println(address.get().length());
-        }else
-        {
-            System.out.println("NA");
-        }*/
 
         /*
-          ifPresent accepts the Consumer as parameter.
-          ifPresentOrElse accepts 2 parameters (Consumer,Runnable)
-         */
-       // address.ifPresent((a) -> System.out.println(a.length()));
-        address.ifPresentOrElse((a) -> System.out.println(a.length()),()-> System.out.println("NA"));
+          Developer may not know if address is null or has a value.
+          Without Optional, accessing address.length() may cause:
 
+          java.lang.NullPointerException:
+          Cannot invoke "String.length()" because "address" is null
 
+          Normally we handle using:
+            if(address != null) { ... }
 
+          Java 1.8 introduced Optional to avoid such NullPointerExceptions.
+        */
+
+        /*
+          Optional simplifies null checks:
+
+          if(address.isPresent()) {
+              System.out.println(address.get().length());
+          } else {
+              System.out.println("NA");
+          }
+        */
+
+        /*
+          ifPresent() accepts a Consumer.
+          ifPresentOrElse() accepts a Consumer and a Runnable.
+        */
+
+        address.ifPresentOrElse(
+                a -> System.out.println(a.length()),
+                () -> System.out.println("NA")
+        );
 
         String name = s1.getName();
         System.out.println(name);
 
         int rollNo = s1.getRollNo();
         System.out.println(rollNo);
-
     }
-
 }
+```
+
+```
+
+If you want, I can also generate a **PDF**, **DOCX**, or **formatted notes** version.
+```
