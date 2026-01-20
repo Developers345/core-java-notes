@@ -443,11 +443,7 @@ t1.getState();
 ```text
 IllegalThreadStateException
 ```
-Here’s your text rewritten in **professional English** and formatted as a clean, structured **Markdown (.md)** document:
 
----
-
-````markdown
 # Example: Creating Threads Using the Runnable Interface
 
 ## Program Example
