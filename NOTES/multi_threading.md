@@ -126,12 +126,6 @@ This method returns an **integer value** representing the total number of active
 
 ---
 
-
-Here’s your text rewritten in **professional English** and formatted as a clean, well-structured **Markdown (.md)** document:
-
----
-
-````markdown
 # Example: Default Thread Created by Java
 
 ## Program Example
