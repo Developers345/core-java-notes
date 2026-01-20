@@ -370,11 +370,6 @@ public Thread(String name) {
  
 <img width="1413" height="524" alt="Screenshot 2025-10-16 111956" src="https://github.com/user-attachments/assets/d6fc8e58-bb13-4fe5-bc3d-178bf11256a6" />
 
-Here’s your text rewritten in **professional English** and formatted as a **Markdown (.md)** document:
-
----
-
-````markdown
 # Creating Threads and Thread Methods in Java
 
 ## Creating Threads Using the Runnable Interface
