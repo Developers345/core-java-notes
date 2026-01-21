@@ -384,6 +384,3 @@ Submit the Task!
 Main Thread is working on...
 Result of submitted task: Hello World
 ```
-
-```
-```
